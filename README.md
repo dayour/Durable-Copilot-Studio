@@ -4,11 +4,11 @@ The durable task scheduler is a solution for durable execution in Azure. Durable
 
 Developers can use the durable task scheduler with the following orchestration frameworks: 
 - [Durable Functions](https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-overview) 
+- Durable Task SDKs, also referred to as "portable SDKs"
 - [Durable Task Framework](https://github.com/Azure/durabletask) 
-- Durable Task SDKs, also called "portable SDKs"
 
 ### Use with Durable Functions and Durable Task Framework
-When used with Durable Functions, the durable task scheduler plays the role the ["backend provider"](https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-storage-providers), where state data is persisted as the app runs. While other backend providers are supported, only the durable task scheduler offers a fully managed experience which removes operational overhead from users. Additionally, the scheduler offers exceptional performance, reliability, and the ease of monitoring orchestrations. 
+When used with Durable Functions, the durable task scheduler plays the role the ["backend provider"](https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-storage-providers), where state data is persisted as the app runs. While other backend providers are supported, only the durable task scheduler offers a fully managed experience, which removes operational overhead from users. Additionally, the scheduler offers exceptional performance, reliability, and the ease of monitoring orchestrations. 
 
 The durable task scheduler plays a similar role in the Durable Task Framework as in Durable Functions. 
 
