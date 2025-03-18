@@ -20,7 +20,7 @@ The Durable Task SDKs provide a lightweight client library for the durable task 
 For more information on how to use the Azure Functions durable task scheduler and to explore its features, please refer to the [official documentation](https://aka.ms/dts-documentation)
 
 ## Choosing your orchestration framework
-This repo contains samples for all orchestration frameworks that you can use the durable task scheduler with. The following table provides some considerations to help you choose a framework for your scenario:
+This repo contains samples in different directories for all orchestration frameworks supported by the durable task scheduler. The following table provides some considerations when choosing a framework:
 
 |Consideration | Portable SDKs | Durable Functions | Durable Task Framework|
 |--------------| --------------| ------------------| --------------------- | 
@@ -28,10 +28,11 @@ This repo contains samples for all orchestration frameworks that you can use the
 |Language support | [.NET](https://github.com/microsoft/durabletask-dotnet/), [Python](https://github.com/microsoft/durabletask-python), Java (coming soon) | [.NET](https://github.com/Azure/azure-functions-durable-extension), [Python](https://github.com/Azure/azure-functions-durable-python), [Java](https://github.com/microsoft/durabletask-java), [JavaScript](https://github.com/Azure/azure-functions-durable-js), [PowerShell](https://github.com/Azure/azure-functions-powershell-worker/tree/dev/examples/durable) | [.NET](https://github.com/Azure/durabletask) |
 |Official support| Yes | Yes | No |
 |Durable task scheduler emulator| Available | Available |Available |
-|Durable task scheduler dashboard| Available | Available* | Available*|
+|Monitoring dashboard| Available | Available <sup>1</sup> | Available <sup>1</sup>|
 |[Durable Entities](https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-entities)| Not supported | Supported | Not supported|
 |Other supported feature(s)| Scheduler| Azure Functions triggers and bindings ||
 
+*<sup>1</sup> The out-of-the-box monitoring dashboard is available only when using the durable task scheduler as the backend provider.*
 
 
 ## Tell us what you think
