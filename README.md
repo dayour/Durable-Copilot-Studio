@@ -3,8 +3,8 @@
 The durable task scheduler is a solution for durable execution in Azure. Durable execution is a fault-tolerant approach to running code that handles failures and interruptions through automatic retries and state persistence. Scenarios where durable execution is required include distributed transactions, multi-agent orchestration, data processing, infrastructure management, etc. Coupled with a developer orchestration framework like Durable Functions or the Durable Task SDKs, the durable task scheduler enables developers to author stateful apps that run on any compute environment without the need to architect for fault tolerance. 
 
 Developer can use the durable task scheduler with the following orchestration frameworks: 
-- Durable Functions 
-- Durable Task Framework 
+- [Durable Functions](https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-overview) 
+- [Durable Task Framework](https://github.com/Azure/durabletask) 
 - Durable Task SDKs, also called "portable SDKs"
 
 ### Use with Durable Functions and Durable Task Framework
@@ -25,11 +25,11 @@ This repo contains samples for all orchestration frameworks that you can use the
 |Consideration | Portable SDKs | Durable Functions | Durable Task Framework|
 |--------------| --------------| ------------------| --------------------- | 
 |Hosting option| Any compute environment | Azure Functions | Any compute environment |
-|Language support | .NET, Python, Java (coming soon) | .NET, Python, Java, JavaScript, PowerShell | .NET |
+|Language support | [.NET](https://github.com/microsoft/durabletask-dotnet/), [Python](https://github.com/microsoft/durabletask-python), Java (coming soon) | [.NET](https://github.com/Azure/azure-functions-durable-extension), [Python](https://github.com/Azure/azure-functions-durable-python), [Java](https://github.com/microsoft/durabletask-java), [JavaScript](https://github.com/Azure/azure-functions-durable-js), [PowerShell](https://github.com/Azure/azure-functions-powershell-worker/tree/dev/examples/durable) | [.NET](https://github.com/Azure/durabletask) |
 |Official support| Yes | Yes | No |
 |Durable task scheduler emulator| Available | Available |Available |
 |Durable task scheduler dashboard| Available | Available* | Available*|
-|Durable Entities| Not supported | Supported | Not supported|
+|[Durable Entities](https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-entities)| Not supported | Supported | Not supported|
 |Other supported feature(s)| Scheduler| Azure Functions triggers and bindings ||
 
 
