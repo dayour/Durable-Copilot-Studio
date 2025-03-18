@@ -1,57 +1,15 @@
-# Project Name
+## Azure Functions durable task scheduler
 
-(short, 1-3 sentenced, description of the project)
+The durable task scheduler is a fully managed backend for durable execution in Azure. Durable execution is a fault-tolerant approach to running code that handles failures and interruptions through automatic retries and state persistence. Coupled with a developer orchestration framework, like Durable Functions or the Durable Task SDKs (portable sdks), the durable task scheduler enables developers to write stateful orchestrations within compute environments, without the need to architect for fault tolerance. It offers exceptional performance, reliability, and the ease of monitoring stateful orchestrations, regardless of where your applications are hosted in Azure.
 
-## Features
+Author your orchestrations as code using Durable Functions or Durable Task SDKs. Connect your workloads to the durable task scheduler, which handles orchestrations and task scheduling, persists orchestration state, manages orchestration and task failures, and load balances orchestration execution at scale. These capabilities significantly reduce operational overhead for developers, allowing them to focus on delivering business value. The choice of developer orchestration framework depends on where your applications are hosted: use Durable Functions in Azure Functions, or the Durable Task SDKs (portable SDKS) in Azure Container Apps, Azure Kubernetes Service, App Service, etc.
 
-This project framework provides the following features:
+For more information on how to use the Azure Functions durable task scheduler and to explore its features, please refer to the [official documentation](https://aka.ms/dts-documentation)
 
-* Feature 1
-* Feature 2
-* ...
+![Durable Task Scheduler in all Azure Computes](./media/images/dts-in-all-computes.png)
 
-## Getting Started
+## Tell us what you think
 
-### Prerequisites
+Your feedback is essential in shaping the future direction of this product. We encourage you to share your experiences, both the good and the bad. If there are any missing features or capabilities that you would like to see supported in the Durable Task Scheduler, we want to hear about them.
 
-(ideally very short, if any)
-
-- OS
-- Library version
-- ...
-
-### Installation
-
-(ideally very short)
-
-- npm install [package name]
-- mvn install
-- ...
-
-### Quickstart
-(Add steps to get up and running quickly)
-
-1. git clone [repository clone url]
-2. cd [repository name]
-3. ...
-
-
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
-
-## Resources
-
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+> **Note:** This is an early-stage version of the product. You can share your feedback either by dropping us an issue in this repo (other private preview users will see your issue) or send an email to our product managers Nick and Lily ([nicholas.greenfield@microsoft.com](mailto:nicholas.greenfield@microsoft.com); [jiayma@microsoft.com](mailto:jiayma@microsoft.com)).
