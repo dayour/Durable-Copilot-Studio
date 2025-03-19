@@ -1,21 +1,21 @@
 # Hello World with the Durable Task SDK for .NET
 
-In addition to [Durable Functions](https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-overview), the [Durable Task SDK for .NET](https://github.com/microsoft/durabletask-dotnet) can also use the Durable Task Scheduler service for managing orchestration state.
+In addition to [Durable Functions](https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-overview), the [Durable Task SDK for .NET](https://github.com/microsoft/durabletask-dotnet) can also use the durable task scheduler for managing orchestration state.
 
-This directory includes a sample .NET console app that demonstrates how to use the Durable Task Scheduler with the Durable Task SDK for .NET (without any Azure Functions dependency).
+This directory includes a sample .NET console app that demonstrates how to use the scheduler with the Durable Task SDK for .NET (without any Azure Functions dependency).
 
 ## Prerequisites
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
 
-## Creating a Durable Task Scheduler task hub
+## Creating a durable task scheduler task hub
 
-Before you can run the app, you need to create a Durable Task Scheduler task hub in Azure.
+Before you can run the app, you need to create a durable task scheduler task hub in Azure.
 
 > **NOTE**: These are abbreviated instructions for simplicity. For a full set of instructions, see the Azure Durable Functions [QuickStart guide](../../../../quickstarts/HelloCities/README.md#create-a-durable-task-scheduler-namespace-and-task-hub).
 
-1. Install the Durable Task Scheduler CLI extension:
+1. Install the durable task scheduler CLI extension:
 
     ```bash
     az upgrade
@@ -28,7 +28,7 @@ Before you can run the app, you need to create a Durable Task Scheduler task hub
     az group create --name my-resource-group --location northcentralus
     ```
 
-1. Create a Durable Task Scheduler resource:
+1. Create a durable task scheduler resource:
 
     **PowerShell**:
 
@@ -123,10 +123,10 @@ Before you can run the app, you need to create a Durable Task Scheduler task hub
         --query "properties.endpoint" \
         --output tsv)
     taskhub="portable-dotnet"
-    export DURABLE_TASK_SCHEDULER_CONNECTION_STRING="Endpoint=$endpoint;TaskHub=$taskhub;Authentication=AzureDefault"
+    export DURABLE_TASK_SCHEDULER_CONNECTION_STRING="Endpoint=$endpoint;TaskHub=$taskhub;Authentication=DefaultAzure"
     ```
 
-    The `DURABLE_TASK_SCHEDULER_CONNECTION_STRING` environment variable is used by the sample app to connect to the Durable Task Scheduler resources. The type of credential to use is specified by the `Authentication` segment. Supported values include `AzureDefault`, `ManagedIdentity`, `WorkloadIdentity`, `Environment`, `AzureCLI`, and `AzurePowerShell`.
+    The `DURABLE_TASK_SCHEDULER_CONNECTION_STRING` environment variable is used by the sample app to connect to the durable task scheduler resources. The type of credential to use is specified by the `Authentication` segment. Supported values include `DefaultAzure`, `ManagedIdentity`, `WorkloadIdentity`, `Environment`, `AzureCLI`, and `AzurePowerShell`.
 
 ## Running the sample
 
@@ -201,7 +201,7 @@ https://dashboard.durabletask.io/subscriptions/{subscriptionID}/schedulers/my-sc
 
 Once logged in, you should see the orchestrations that were created by the sample app. Below is an example of what the dashboard might look like (note that some of the details will be different than the screenshot):
 
-![Durable Task Scheduler dashboard](/media/images/portable-sample-dashboard.png)
+![Durable Task Scheduler dashboard](../../../../media/images/portable-sdks/portable-sample-dashboard.png)
 
 ## Optional: Deploy to Azure Container Apps
 

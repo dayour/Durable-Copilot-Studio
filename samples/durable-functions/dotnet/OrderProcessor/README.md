@@ -117,17 +117,17 @@ To run the app:
 ### Durable task scheduler dashboard 
 The dashboard comes out-of-the-box and is also available when using the emulator. Click on the `8082` port on Docker desktop, and then click on the task hub named  `default` to see the dashboard.
 
-![Docker container ports](./img/container-ports.png)
+![Docker container ports](../../../../media/images/OrderProcessor/container-ports.png)
 
 The dashboard gives a summary of all the orchestration instances run or running against that task hub: 
 
-![Dashboard overview](./img/dashboard-overview.png)
+![Dashboard overview](../../../../media/images/OrderProcessor/dashboard-overview.png)
 
 Drill into an orchestration instance to see what activities were executed, duration, payload information, etc.:
-![Orchestration instance details](./img/instance-details.png)
+![Orchestration instance details](../../../../media/images/OrderProcessor/instance-details.png)
 
 The example below shows the input and output of the *ReserveInventory* activity:
-![Orchestration input and output](./img/input-output.png)
+![Orchestration input and output](../../../../media/images/OrderProcessor/input-output.png)
 
 
 ## Deploy the app to Azure
@@ -177,16 +177,16 @@ You can access the dashboard by going to **https://dashboard.durabletask.io/** a
 1. Navigate to the `rg-<YOUR_AZD_ENVIRONMENT_NAME>` overview page on Azure portal.
 
 1. Select the `dts-<randomGUID>` resource:
-![Provisioned resource group](./img/resource-group.png)
+![Provisioned resource group](../../../../media/images/OrderProcessor/resource-group.png)
 
 1. When on the resource overview page, select the task hub:
-![Task hub](./img/taskhub.png)
+![Task hub](../../../../media/images/OrderProcessor/taskhub.png)
 
 1. Find the dashboard url in the top "Essentials" section: 
-![Dashboard url](./img/dashboard-url.png)
+![Dashboard url](../../../../media/images/OrderProcessor/dashboard-url.png)
 
 ## Next steps
 
 Learn more about:
-- [Durable Task Scheduler performance](../../docs/performance.md)
-- [The Durable Task Scheduler dashboard](../../docs/dashboard.md)
+- [Durable Functions](https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-overview)
+- [Durable Task Scheduler](https://learn.microsoft.com/azure/azure-functions/durable/durable-task-scheduler/durable-task-scheduler)

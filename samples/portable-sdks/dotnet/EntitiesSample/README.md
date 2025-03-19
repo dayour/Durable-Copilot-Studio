@@ -20,17 +20,21 @@ From a terminal window as above, use the following steps to run the sample on yo
 
 1. Start the Durable Task Scheduler Emulator.
 
-    For x86-based systems, like Windows, Linux, and Intel-based Macs, run the following command:
-
     ```bash
-    docker run --rm --name dts-emulator -p 8080:8080 -p 8082:8082 durabletaskspublic.azurecr.io/dts-emulator:v0.0.3-amd64
+    docker pull mcr.microsoft.com/dts/dts-emulator:v0.0.5
     ```
 
-    For ARM-based systems, like Apple Silicon Macs, run the following command:
+    ```bash
+    docker run -itP mcr.microsoft.com/dts/dts-emulator:v0.0.5
+    ```
+
+1. Set the `DURABLE_TASK_SCHEDULER_CONNECTION_STRING` environment variable:
 
     ```bash
-    docker run --rm --name dts-emulator -p 8080:8080 -p 8082:8082 durabletaskspublic.azurecr.io/dts-emulator:v0.0.3-arm64
+    export DURABLE_TASK_SCHEDULER_CONNECTION_STRING="Endpoint=http://localhost:<port number>;TaskHub=default;Authentication=None"
     ```
+
+    The *port number* is the one mapped to port `8080` on Docker. 
 
 1. Run the following command to build and run the sample:
 
