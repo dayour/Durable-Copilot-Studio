@@ -5,7 +5,7 @@ This sample integrates various Azure services, including the new Durable Task Sc
 
 The application showcases how PDFs can be ingested and intelligently scanned to determine their content.
 
-![Architecture Diagram](../../../media/images/architecture_v2.png)
+![Architecture Diagram](../../../../media/images/architecture_v2.png)
 
 The application's workflow is as follows:
 1.	PDFs are uploaded to a blob storage input container.
@@ -75,7 +75,7 @@ This app leverages Durable Functions to orchestrate the application workflow. By
 
 Take a look at the code snippet below, the `process_document` defines the entire workflow, which consists of a series of steps (activities) that need to be scheduled in sequence. Coordination is key, as the output of one activity is passed as an input to the next. Additionally, Durable Functions handle durability and retries, which ensure that if a failure occurs, such as a transient error or an issue with a dependent service, the workflow can recover gracefully.
 
-![Orchestration Code](../../../media/images/code.png)
+![Orchestration Code](../../../../media/images/code.png)
 
 ## Deploy the app to Azure
 Use the [Azure Developer CLI (`azd`)](https://aka.ms/azd) to easily deploy the app. 
@@ -118,9 +118,9 @@ To use the app, simply upload a PDF to the Blob Storage `input` container. Once 
 ### Review Execution History in the Durable Task Scheduler Dashboard
 Since the application leverages the Durable Task Scheduler backend storage provider for Durable Functions, all orchestration executions are persisted and can be viewed in the monitoring and management dashboard.
 
-![DTS dashboard](../../../media/images/dashboard.png)
+![DTS dashboard](../../../../media/images/dashboard.png)
 
 This dashboard enables you to monitor the status of ongoing and failed orchestrations, and troubleshoot any issues causing orchestrations to fail or become "stuck." It also displays the outputs from each activity execution. Additionally, you can use the timeline and sequence diagrams to gain insights into the orchestration execution, including the duration of each activity.
 
-![DTS activity dashboard](../../../media/images/activity.png)
-![DTS orchestration sequence](../../../media/images/sequence.png)
+![DTS activity dashboard](../../../../media/images/activity.png)
+![DTS orchestration sequence](../../../../media/images/sequence.png)
