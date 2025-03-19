@@ -1,5 +1,5 @@
 ### Variables
-@baseUrl = http://localhost:5000
+@baseUrl = http://localhost:8080
 @scheduleId = schedule-123
 
 ### Create a new schedule

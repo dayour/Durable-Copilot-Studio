@@ -167,4 +167,4 @@ https://my-scheduler-atdngmgxfsh0-db.northcentralus.durabletask.io/taskHubs/defa
 
 Once logged in, you should see the orchestrations that were created by the sample app. Below is an example of what the dashboard might look like (note that some of the details will be different than the screenshot):
 
-![Durable Task Scheduler dashboard](/media/images/dtfx-sample-dashboard.png)
+![Durable Task Scheduler dashboard](../../../media/images/dtfx-sample-dashboard.png)

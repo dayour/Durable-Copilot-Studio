@@ -1,16 +1,16 @@
 # Schedule Orchestrations with Durable Task SDK for .NET
 
-This sample demonstrates a web application that leverages Azure Durable Task Scheduler to manage recurring background tasks. Users can create, update, pause, resume, and delete schedules through REST endpoints provided by the ScheduleController. A dedicated orchestrator (CacheClearingOrchestrator) is used to perform periodic operations, such as clearing caches, by automatically triggering the scheduled tasks at configured intervals.
+This sample demonstrates a web application that leverages the durable task scheduler to manage recurring background tasks. Users can create, update, pause, resume, and delete schedules through REST endpoints provided by the ScheduleController. A dedicated orchestrator (CacheClearingOrchestrator) is used to perform periodic operations, such as clearing caches, by automatically triggering the scheduled tasks at configured intervals.
 
 ## Prerequisites
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
-- Azure subscription with access to Durable Task Scheduler
+- Azure subscription 
 
 ## Setup
 
-1. Install the Durable Task Scheduler CLI extension:
+1. Install the durable task scheduler CLI extension:
    ```bash
    az upgrade
    az extension add --name durabletask --allow-preview true
@@ -68,7 +68,7 @@ This sample demonstrates a web application that leverages Azure Durable Task Sch
        --query "properties.endpoint" \
        --output tsv)
    taskhub="schedule-webapp"
-   export DURABLE_TASK_SCHEDULER_CONNECTION_STRING="Endpoint=$endpoint;TaskHub=$taskhub;Authentication=AzureDefault"
+   export DURABLE_TASK_SCHEDULER_CONNECTION_STRING="Endpoint=$endpoint;TaskHub=$taskhub;Authentication=DefaultAzure"
    ```
 
 ## Running the Application
@@ -116,7 +116,7 @@ az durabletask taskhub show \
 
 The application uses the following configuration:
 
-- `DURABLE_TASK_SCHEDULER_CONNECTION_STRING` - Connection string for Azure Durable Task Scheduler
+- `DURABLE_TASK_SCHEDULER_CONNECTION_STRING` - Connection string for durable task scheduler
 - `ASPNETCORE_ENVIRONMENT` - Application environment (Development/Production)
 
 These can be configured through:
@@ -127,4 +127,4 @@ These can be configured through:
 ## Additional Resources
 
 - [Durable Task SDK Documentation](https://github.com/microsoft/durabletask-dotnet)
-- [Azure Durable Task Scheduler Documentation](https://learn.microsoft.com/azure/durable-functions/durable-functions-overview)
+- [Durable task scheduler Documentation](https://learn.microsoft.com/azure/azure-functions/durable/durable-task-scheduler/durable-task-scheduler)
