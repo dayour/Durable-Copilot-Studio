@@ -72,10 +72,6 @@ $env:TASKHUB = "<taskhubname>"
 $env:ENDPOINT = "<taskhubEndpoint>"
 ```
 
-Windows PowerShell: `$env:TASKHUB="default`" `$env:ENDPOINT="http://localhost:8080"`
-
-Bash: `export TASKHUB=default export ENDPOINT=http://localhost:8080`
-
 4. Edit the Examples: Change the token_credential input of both the `DurableTaskSchedulerWorker` and `DurableTaskSchedulerClient` to `None`.
 
 ### Running the Examples
