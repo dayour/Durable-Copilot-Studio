@@ -16,6 +16,10 @@
       },
       "hubName": "%TASKHUB_NAME%"
     }
-  }
+  },
+  "extensionBundle": {
+    "id": "Microsoft.Azure.Functions.ExtensionBundle.Preview",
+    "version": "[4.29.0, 5.0.0)"
+   }
 }
 
