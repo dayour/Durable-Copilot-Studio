@@ -9,7 +9,7 @@ The scenario showcases an order processing system where orders are processed in 
 There are two separate ways to run an example:
 
 - Using the Emulator
-- Using a Real Scheduler and Taskhub
+- Using a deployed Scheduler and Taskhub
 
 ### Running with a Deployed Scheduler and Taskhub rResource
 1. To create a taskhub, follow these steps using the Azure CLI commands:
@@ -80,4 +80,9 @@ Now, you can execute any of the examples in this directory using Python:
 python3 ./fanout-fanin.py
 ```
 
+### Review Orchestration History and Status in the Durable Task Scheduler Dashboard
+To access the Durable Task Scheduler Dashboard, follow these steps:
 
+- **Using the Emulator**: By default, the dashboard runs on portal 8082. Navigate to http://localhost:8082 and click on the default task hub.
+
+- **Using a Deployed Scheduler**: Navigate to the Scheduler resource. Then, go to the Task Hub subresource that you are using and click on the dashboard URL in the top right corner.
