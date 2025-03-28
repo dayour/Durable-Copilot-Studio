@@ -77,10 +77,19 @@ $env:ENDPOINT = "<taskhubEndpoint>"
 4. Edit the Examples: Change the token_credential input of both the `DurableTaskSchedulerWorker` and `DurableTaskSchedulerClient` to `None`.
 
 ### Running the Examples
-Now, you can execute any of the examples in this directory using Python:
-```bash
-python3 ./fanout-fanin.py
+You can now execute the sample using Python:
+
+Start the worker and ensure the TASKHUB and ENDPOINT environment variables are set in your shell:
+```bash 
+python3 ./worker.py
 ```
+
+Next, start the orchestrator and make sure the TASKHUB and ENDPOINT environment variables are set in your shell:
+```bash
+python3 ./orchestrator.py
+```
+
+You should start seeing logs for processing orders in both shell outputs.
 
 ### Review Orchestration History and Status in the Durable Task Scheduler Dashboard
 To access the Durable Task Scheduler Dashboard, follow these steps:
