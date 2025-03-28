@@ -2,7 +2,9 @@
 
 This sample demonstrates how to use the Durable Task SDK, also known as the Portable SDK, with the Durable Task Scheduler to create orchestrations. These orchestrations not only spin off child orchestrations but also perform parallel processing by leveraging the fan-out/fan-in application pattern.
 
-The scenario showcases an order processing system where orders are processed in batches.
+The scenario showcases an order processing system where orders are processed in batches. 
+
+> Note, for simplicity, this code is contained within a single source file. In real practice, you would have 
 
 
 ## Running the Examples

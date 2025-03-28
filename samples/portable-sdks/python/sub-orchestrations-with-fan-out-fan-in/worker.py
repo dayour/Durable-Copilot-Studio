@@ -1,11 +1,8 @@
 import os
 import random
 import time
-
 from azure.identity import DefaultAzureCredential
-
-from durabletask import client, task
-from durabletask.azuremanaged.client import DurableTaskSchedulerClient
+from durabletask import task
 from durabletask.azuremanaged.worker import DurableTaskSchedulerWorker
 
 def get_orders(ctx, _) -> list[str]:
@@ -25,7 +22,7 @@ def check_and_update_inventory(ctx, order: str) -> str:
     # return a random boolean indicating if the item is in stock
     return random.choices([True, False], weights=[9, 1])
 
-def charge_payment(ctx: task.ActivityContext, order: str) -> bool:
+def charge_payment(ctx, order: str) -> bool:
     """Activity function that charges payment for a given order"""
     print(f'charging payment for order: {order}')
 
@@ -35,7 +32,7 @@ def charge_payment(ctx: task.ActivityContext, order: str) -> bool:
     # return a random boolean indicating if the payment was successful
     return random.choices([True, False], weights=[9, 1])
 
-def ship_order(ctx: task.ActivityContext, order: str) -> bool:
+def ship_order(ctx, order: str) -> bool:
     """Activity function that ships a given order"""
     print(f'shipping order: {order}')
 
@@ -45,7 +42,7 @@ def ship_order(ctx: task.ActivityContext, order: str) -> bool:
     # return a random boolean indicating if the shipping was successful
     return random.choices([True, False], weights=[9, 1])
 
-def notify_customer(ctx: task.ActivityContext, order: str) -> bool:
+def notify_customer(ctx, order: str) -> bool:
     """Activity function that notifies the customer about the order status"""
     print(f'notifying customer about order: {order}')
 
@@ -60,25 +57,25 @@ def process_order(ctx, order: str) -> dict:
     print(f'processing order: {order}')
 
      # Check inventory
-    inventory_checked = yield ctx.call_activity(check_and_update_inventory, input=order)
+    inventory_checked = yield ctx.call_activity('check_and_update_inventory', input=order)
 
     if not inventory_checked:
         return {'order': order, 'status': 'failed', 'reason': 'out of stock'}
 
     # Charge payment
-    payment_charged = yield ctx.call_activity(charge_payment, input=order)
+    payment_charged = yield ctx.call_activity('charge_payment', input=order)
 
     if not payment_charged:
         return {'order': order, 'status': 'failed', 'reason': 'payment failed'}
 
     # Ship order
-    order_shipped = yield ctx.call_activity(ship_order, input=order)
+    order_shipped = yield ctx.call_activity('ship_order', input=order)
 
     if not order_shipped:
         return {'order': order, 'status': 'failed', 'reason': 'shipping failed'}
 
     # Notify customer
-    customer_notified = yield ctx.call_activity(notify_customer, input=order)
+    customer_notified = yield ctx.call_activity('notify_customer', input=order)
 
     if not customer_notified:
         return {'order': order, 'status': 'failed', 'reason': 'customer notification failed'}
@@ -91,7 +88,7 @@ def orchestrator(ctx, _):
     sub-orchestration functions in parallel, waits for them all to complete, and prints
     an aggregate summary of the outputs"""
 
-    orders: list[str] = yield ctx.call_activity(get_orders)
+    orders: list[str] = yield ctx.call_activity('get_orders')
 
     # Execute the orders in parallel and wait for them all to return
     tasks = [ctx.call_sub_orchestrator(process_order, input=order) for order in orders]
@@ -136,23 +133,15 @@ credential = DefaultAzureCredential()
 with DurableTaskSchedulerWorker(host_address=endpoint, secure_channel=True,
                                 taskhub=taskhub_name, token_credential=credential) as w:
     
-     w.add_orchestrator(orchestrator)
-     w.add_orchestrator(process_order)
-     w.add_activity(get_orders)
-     w.add_activity(check_and_update_inventory)
-     w.add_activity(charge_payment)
-     w.add_activity(ship_order)
-     w.add_activity(notify_customer)
+    w.add_orchestrator(orchestrator)
+    w.add_orchestrator(process_order)
+    w.add_activity(get_orders)
+    w.add_activity(check_and_update_inventory)
+    w.add_activity(charge_payment)
+    w.add_activity(ship_order)
+    w.add_activity(notify_customer)
 
-     w.start()
+    w.start()
 
-     # Create a client, start an orchestration, and wait for it to finish
-     c = DurableTaskSchedulerClient(host_address=endpoint, secure_channel=True,
-                                    taskhub=taskhub_name, token_credential=credential)
-     instance_id = c.schedule_new_orchestration(orchestrator)
-     state = c.wait_for_orchestration_completion(instance_id, timeout=30)
-     if state and state.runtime_status == client.OrchestrationStatus.COMPLETED:
-         print(f'Orchestration completed! Result: {state.serialized_output}')
-     elif state:
-         print(f'Orchestration failed: {state.failure_details}')
-     exit()
+    while True:
+        time.sleep(1)
