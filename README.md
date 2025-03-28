@@ -22,7 +22,7 @@ For more information on how to use the Azure Functions durable task scheduler an
 ## Choosing your orchestration framework
 This repo contains samples in different directories for all orchestration frameworks supported by the durable task scheduler. The following table provides some considerations when choosing a framework. 
 
-|Consideration | Portable SDKs | Durable Functions | Durable Task Framework|
+|Consideration | Durable Task SDKs | Durable Functions | Durable Task Framework|
 |--------------| --------------| ------------------| --------------------- | 
 |Hosting option| Azure Container Apps, Azure Kubernetes Service, Azure App Service, VMs | Azure Functions | Azure Container Apps, Azure Kubernetes Service, Azure App Service, VMs |
 |Language support | [.NET](https://github.com/microsoft/durabletask-dotnet/), [Python](https://github.com/microsoft/durabletask-python), [Java (coming soon)](https://github.com/microsoft/durabletask-java), [JavaScript (coming soon)](https://github.com/microsoft/durabletask-js) | [.NET](https://github.com/Azure/azure-functions-durable-extension), [Python](https://github.com/Azure/azure-functions-durable-python), [Java](https://github.com/microsoft/durabletask-java), [JavaScript](https://github.com/Azure/azure-functions-durable-js), [PowerShell](https://github.com/Azure/azure-functions-powershell-worker/tree/dev/examples/durable) | [.NET](https://github.com/Azure/durabletask) |
@@ -30,11 +30,25 @@ This repo contains samples in different directories for all orchestration framew
 |Durable task scheduler emulator| Available | Available |Available |
 |Monitoring dashboard| Available | Available <sup>1</sup> | Available <sup>1</sup>|
 |[Durable Entities](https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-entities)| Not supported | Supported | Not supported|
-|Other supported feature(s)| Scheduler| Azure Functions triggers and bindings ||
+|Other supported feature(s)| Scheduler| <li>Azure Functions triggers and bindings</li> <li> Supports all backend providers </li> |Supports all backend providers|
 
 *<sup>1</sup> The out-of-the-box monitoring dashboard is available only when using the durable task scheduler as the backend provider.*
 
 > **Note:** For all **new apps**, we recommend the portable SDKs over the Durable Task Framework as the former follows more modern .NET conventions and will be the focus of our future investments.
+
+## API reference docs
+Durable Task SDKs
+- [.NET](https://learn.microsoft.com/en-us/dotnet/api/microsoft.durabletask?view=durabletask-dotnet-1.x)
+- Python (coming soon)
+- [Java](https://learn.microsoft.com/en-us/java/api/com.microsoft.durabletask?view=durabletask-java-1.x)
+- JavaScript (coming soon)
+
+
+Durable Functions
+- [.NET (isolated)](https://learn.microsoft.com/en-us/dotnet/api/microsoft.azure.functions.worker.extensions.durabletask?view=azure-dotnet)
+- [Python](https://learn.microsoft.com/en-us/python/api/azure-functions-durable/azure.durable_functions?view=azure-python)
+- [Java](https://learn.microsoft.com/en-us/java/api/com.microsoft.durabletask.azurefunctions?view=azure-java-stable)
+- [JavaScript](https://learn.microsoft.com/en-us/javascript/api/durable-functions/?view=azure-node-latest)
 
 ## Tell us what you think
 
