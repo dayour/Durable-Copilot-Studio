@@ -19,7 +19,7 @@ languages:
 ## Durable Task Scheduler: A Quickstart Video
 Click the image below to watch the video on YouTube.
 
-<a href="https://youtu.be/8Ot13RgT2oI"><img src="../../../media/images/video_thumbnail.png" width="600px"></a>
+<a href="https://youtu.be/8Ot13RgT2oI"><img src="../../../../media/images/video_thumbnail.png" width="600px"></a>
 
 Let's begin working with Durable Functions using the new Durable Task Scheduler (private preview) backend provider.
 
@@ -100,19 +100,19 @@ Your application has been deployed!
 1. In the portal, navigate to the `rg-<YOUR_AZD_ENVIRONMENT_NAME>` overview page.
 1. Select the `dts-<randomGUID>` resource.
 
-    ![Select the DTS dashboard resource](../../../media/images/dts-dashboard-resource.png)
+    ![Select the DTS dashboard resource](../../../../media/images/dts-dashboard-resource.png)
 
 1. When on the Scheduler Resource overview page, select the TaskHub child resource:
 
-    ![TaskHub child resource](../../../media/images/dts-overview-portal.png)
+    ![TaskHub child resource](../../../../media/images/dts-overview-portal.png)
 
 1. Select the Dashboard URL:
 
-    ![TaskHub child resource](../../../media/images/taskhub-overview-portal.png)
+    ![TaskHub child resource](../../../../media/images/taskhub-overview-portal.png)
 
 1. Browse orchestration state and history from within the TaskHub:
 
-    ![TaskHub Overview](../../../media/images/taskhub-overview.png)
+    ![TaskHub Overview](../../../../media/images/taskhub-overview.png)
 
 ### Scheduler registration using the Azure CLI
 
@@ -120,7 +120,7 @@ Your application has been deployed!
 
 1. Once successfully authenticated, follow these steps to add the connection to the Durable Task Scheduler:
 
-    ![Connecting DTS in the dashboard](../../../media/images/connecting-dts.png)
+    ![Connecting DTS in the dashboard](../../../../media/images/connecting-dts.png)
 
 - Add your Subscription ID in the Subscription input field.
 - Enter the Scheduler Resource Name in the Scheduler input field.
@@ -196,12 +196,12 @@ az durabletask taskhub list -s "SCHEDULER-NAME" -g "RESOURCE-GROUP"
 
 - Click "Add Endpoint".
 
-    ![The Durable Task Scheduler Connected](../../../media/images/dts-connected.png)
+    ![The Durable Task Scheduler Connected](../../../../media/images/dts-connected.png)
 
 3. Once the connection has been successfully added, you will be able to navigate to the TaskHub Overview page, where you can see the status of the orchestrations within that TaskHub.
 
 
-    ![TaskHub Overview](../../../media/images/taskhub-overview.png)
+    ![TaskHub Overview](../../../../media/images/taskhub-overview.png)
 
 ## Clean up resources
 
