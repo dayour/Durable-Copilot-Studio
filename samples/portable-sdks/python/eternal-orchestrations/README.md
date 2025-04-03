@@ -1,8 +1,8 @@
-# Portable SDK Sample for Sub Orchestrations and Fan-out / Fan-in
+# Portable SDK Sample for Eternal Orchestrations
 
-This sample demonstrates how to use the Durable Task SDK, also known as the Portable SDK, with the Durable Task Scheduler to create orchestrations. These orchestrations not only spin off child orchestrations but also perform parallel processing by leveraging the fan-out/fan-in application pattern.
+This sample demonstrates how to use the Durable Task SDK, also known as the Portable SDK, with the Durable Task Scheduler to create eternal orchestrations - orhcestrations that run in a loop.
 
-The scenario showcases an order processing system where orders are processed in batches. 
+The scenario demonstrates a periodic cleanup orchestration that needs to be executed repeatedly. The cleanup activity itself takes 5 seconds to complete. After the cleanup task finishes, a timer is set to schedule the next orchestration 15 seconds from the current time by calling the continue_as_new method. For demonstration purposes, we limit the number of times the orchestration is repeated to 5.
 
 ## Running the Examples
 There are two separate ways to run an example:
