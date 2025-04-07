@@ -2,6 +2,7 @@
 
 ## Description of the Sample
 
+<<<<<<< HEAD
 This sample demonstrates the Fan-Out Fan-In pattern with the Azure Durable Task Scheduler using the .NET SDK. The Fan-Out Fan-In pattern represents a way to execute multiple operations in parallel and then aggregate the results, making it ideal for parallelized data processing scenarios.
 
 In this sample:
@@ -17,6 +18,104 @@ This pattern is useful for:
 - Batch processing operations that can be executed independently
 - Distributing computational workload across multiple workers
 - Aggregating results from multiple sources or computations
+=======
+## Architecture
+
+Below is an architecture diagram illustrating the Fan-Out Fan-In pattern as implemented in this sample:
+
+```
+                                  +-------------------+
+                                  |                   |
+                                  |     HTTP Client   |
+                                  |                   |
+                                  +--------+----------+
+                                           |
+                                           | HTTP Request
+                                           v
++------------------+              +--------+----------+
+|                  |              |                   |
+|  Azure Durable   |<------------>| OrchestrationService |
+|  Task Scheduler  |              |                   |
+|                  |              +-------------------+
++--------+---------+                       ^
+         |                                 |
+         |                                 | Orchestration
+         |                                 | Results
+         |                                 |
+         |            +-------------------+|
+         |            |                   ||
+         |            |   FanOutFanIn     ||
+         |            |   Orchestration   ||
+         |            |                   ||
+         |            +-------------------+|
+         |                       ^         |
+         |                       |         |
+         |                Fan-In |         |
+         |                       |         |
+         |                       |         |
+         v                       |         |
++--------+---------+             |         |
+|                  |             |         |
+|   WorkerService  |             |         |
+|                  |             |         |
++------------------+             |         |
+    |        |        |          |         |
+    v        v        v          |         |
++---+--+ +---+--+ +---+--+       |         |
+|      | |      | |      |       |         |
+|Act. 1| |Act. 2| |Act. N| ------+         |
+|      | |      | |      |                 |
++------+ +------+ +------+                 |
+                                           |
+                                           |
+    Fan-Out Process                        |
+                                           |
++------------------------------------------|
+|                                          |
+|  Legend:                                 |
+|  -------                                 |
+|  ➜ Request/Response Flow                  |
+|  ↔ Service Communication                  |
+|  Act. = Activity                         |
+|                                          |
++------------------------------------------+
+```
+
+The sample is structured as follows:
+
+- **OrchestrationService**: ASP.NET Core Web API that exposes endpoints to start and manage orchestrations
+- **WorkerService**: ASP.NET Core service that processes the activities and implements the orchestration logic
+- **Durable Task Scheduler**: The Azure backend service that manages the orchestration state and messaging
+
+The Fan-Out Fan-In pattern flow:
+1. Client makes HTTP request to the OrchestrationService
+2. OrchestrationService creates one or more FanOutFanIn orchestrations
+3. Each orchestration fans out to multiple parallel activities
+4. The WorkerService processes each activity independently
+5. Results from all activities are fanned back in to the orchestration
+6. The aggregated results are stored in the Durable Task Scheduler
+7. Client can query the orchestration status and results
+
+Both services use the Durable Task SDK with the Azure Managed backend for orchestration management:
+
+```csharp
+// In OrchestrationService/Program.cs
+builder.Services.AddDurableTaskClient("FanOutFanInClient", options =>
+{
+    options.UseDurableTaskScheduler(connectionString);
+});
+
+// In WorkerService/Program.cs
+builder.Services.AddDurableTaskWorker(workerBuilder =>
+{
+    workerBuilder.UseDurableTaskScheduler(connectionString);
+    // Register orchestrations and activities...
+});
+```
+
+1. **OrchestrationService**: Accepts HTTP requests and converts them into orchestrations
+2. **WorkerService**: Implements the activity logic for the orchestrations
+>>>>>>> f7d0e77 (Update readme to have architecture diagram)
 
 ## Prerequisites
 
@@ -159,6 +258,7 @@ public override async Task<Dictionary<string, int>> RunAsync(TaskOrchestrationCo
 }
 ```
 
+<<<<<<< HEAD
 Each activity is implemented as a separate class decorated with the `[DurableTask]` attribute:
 
 ```csharp
@@ -285,3 +385,78 @@ To access the Durable Task Scheduler Dashboard and review your orchestration:
 5. Review the execution details
 
 The dashboard visualizes the Fan-Out Fan-In pattern, making it easy to see how tasks are distributed in parallel and then aggregated back together.
+=======
+## Running the Sample
+
+### Start the Worker Service
+
+```bash
+cd WorkerService/WorkerService
+dotnet run
+```
+
+The Worker Service will start and wait for orchestration tasks.
+
+### Start the Orchestration Service
+
+```bash
+cd OrchestrationService/OrchestrationService
+dotnet run
+```
+
+The Orchestration Service will start and expose HTTP endpoints to create and manage orchestrations.
+
+## Using the Sample
+
+### Create a Fan-Out Fan-In Orchestration
+
+Send a POST request to the Orchestration Service to start a fan-out fan-in pattern test:
+
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"iterations":10,"parallelActivities":5,"parallelOrchestrations":1}' \
+  http://localhost:5000/api/orchestrations
+```
+
+This will create a new orchestration that:
+- Runs 10 iterations
+- In each iteration, fans out to 5 parallel activities
+- Fans in the results from all activities
+- You can also create multiple parallel orchestrations
+
+### Check Orchestration Status
+
+You can check the status of your orchestration using the returned instance ID:
+
+```bash
+curl http://localhost:5000/api/orchestrations/{instanceId}
+```
+
+You can also check multiple orchestrations at once:
+
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '["instance1-id", "instance2-id", "instance3-id"]' \
+  http://localhost:5000/api/orchestrations/status
+```
+
+### Check Service Status
+
+You can verify both services are running with:
+
+```bash
+# Orchestration Service status
+curl http://localhost:5000/status
+
+# Worker Service status
+curl http://localhost:5001/status
+```
+
+## Fan-Out Fan-In Parameters
+
+The fan-out fan-in test accepts the following parameters:
+
+- **iterations**: The number of sequential iterations to run
+- **parallelActivities**: The number of parallel activities to fan out to in each iteration
+- **parallelOrchestrations**: The number of parallel orchestrations to create (defaults to 1)
+>>>>>>> f7d0e77 (Update readme to have architecture diagram)
