@@ -90,7 +90,7 @@ The sample includes smart detection of the environment and configures authentica
 The connection string is constructed dynamically based on the environment:
 ```csharp
 // For local emulator
-connectionString = $"Endpoint={hostAddress};TaskHub={taskHubName}";
+connectionString = $"Endpoint={hostAddress};TaskHub={taskHubName};Authentication=None";
 
 // For Azure
 connectionString = $"Endpoint={hostAddress};TaskHub={taskHubName};Authentication=DefaultAzureCredential";
