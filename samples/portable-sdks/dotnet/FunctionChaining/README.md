@@ -125,8 +125,38 @@ dotnet run
 
 The Worker project contains:
 
-- **GreetingOrchestration.cs**: Defines the orchestrator and activity functions
+- **GreetingOrchestration.cs**: Defines the orchestrator and activity functions in a single file
 - **Program.cs**: Sets up the worker host with proper connection string handling
+
+#### Orchestration Implementation
+
+The orchestration directly calls each activity in sequence using the standard `CallActivityAsync` method:
+
+```csharp
+public override async Task<string> RunAsync(TaskOrchestrationContext context, string name)
+{
+    // Step 1: Say hello to the person
+    string greeting = await context.CallActivityAsync<string>(nameof(SayHelloActivity), name);
+    
+    // Step 2: Process the greeting
+    string processedGreeting = await context.CallActivityAsync<string>(nameof(ProcessGreetingActivity), greeting);
+    
+    // Step 3: Finalize the response
+    string finalResponse = await context.CallActivityAsync<string>(nameof(FinalizeResponseActivity), processedGreeting);
+    
+    return finalResponse;
+}
+```
+
+Each activity is implemented as a separate class decorated with the `[DurableTask]` attribute:
+
+```csharp
+[DurableTask]
+public class SayHelloActivity : TaskActivity<string, string>
+{
+    // Implementation details
+}
+```
 
 The worker uses Microsoft.Extensions.Hosting for proper lifecycle management:
 ```csharp

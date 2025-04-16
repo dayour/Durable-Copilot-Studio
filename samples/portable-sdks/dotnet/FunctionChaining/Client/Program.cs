@@ -7,13 +7,13 @@ using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
 // Configure logging
-using var loggerFactory = LoggerFactory.Create(builder =>
+using ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
 {
     builder.AddConsole();
     builder.SetMinimumLevel(LogLevel.Information);
 });
 
-var logger = loggerFactory.CreateLogger<Program>();
+ILogger<Program> logger = loggerFactory.CreateLogger<Program>();
 logger.LogInformation("Starting Function Chaining Pattern - Greeting Client");
 
 // Get environment variables for endpoint and taskhub with defaults
@@ -36,23 +36,23 @@ if (isLocalEmulator)
 {
     // For local emulator, no authentication needed
     connectionString = $"Endpoint={hostAddress};TaskHub={taskHubName};Authentication=None";
-    Console.WriteLine("Using local emulator with no authentication");
+    logger.LogInformation("Using local emulator with no authentication");
 }
 else
 {
     // For Azure, use DefaultAzureCredential
     connectionString = $"Endpoint={hostAddress};TaskHub={taskHubName};Authentication=DefaultAzureCredential";
-    Console.WriteLine("Using Azure endpoint with DefaultAzureCredential");
+    logger.LogInformation("Using Azure endpoint with DefaultAzureCredential");
 }
 
-Console.WriteLine($"Using endpoint: {endpoint}");
-Console.WriteLine($"Using task hub: {taskHubName}");
-Console.WriteLine($"Host address: {hostAddress}");
-Console.WriteLine($"Connection string: {connectionString}");
-Console.WriteLine("This worker implements a simple greeting workflow with 3 chained activities");
+logger.LogInformation("Using endpoint: {Endpoint}", endpoint);
+logger.LogInformation("Using task hub: {TaskHubName}", taskHubName);
+logger.LogInformation("Host address: {HostAddress}", hostAddress);
+logger.LogInformation("Connection string: {ConnectionString}", connectionString);
+logger.LogInformation("This sample implements a simple greeting workflow with 3 chained activities");
 
 // Create the client using DI service provider
-var services = new ServiceCollection();
+ServiceCollection services = new ServiceCollection();
 services.AddLogging(builder => builder.AddConsole());
 
 // Register the client
@@ -61,15 +61,15 @@ services.AddDurableTaskClient(options =>
     options.UseDurableTaskScheduler(connectionString);
 });
 
-var serviceProvider = services.BuildServiceProvider();
-var client = serviceProvider.GetRequiredService<DurableTaskClient>();
+ServiceProvider serviceProvider = services.BuildServiceProvider();
+DurableTaskClient client = serviceProvider.GetRequiredService<DurableTaskClient>();
 
 // Create a name input for the greeting orchestration
 string name = "User";
 logger.LogInformation("Starting greeting orchestration for name: {Name}", name);
 
 // Schedule the orchestration
-var instanceId = await client.ScheduleNewOrchestrationInstanceAsync(
+string instanceId = await client.ScheduleNewOrchestrationInstanceAsync(
     "GreetingOrchestration", 
     name);
 
@@ -79,7 +79,7 @@ logger.LogInformation("Started orchestration with ID: {InstanceId}", instanceId)
 logger.LogInformation("Waiting for orchestration to complete...");
 
 // Create a cancellation token source with timeout
-using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
 
 // Wait for the orchestration to complete using built-in method
 OrchestrationMetadata instance = await client.WaitForInstanceCompletionAsync(
