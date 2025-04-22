@@ -2,7 +2,12 @@
 
 ## Description of the Sample
 
-This sample demonstrates the async HTTP API pattern with the Azure Durable Task Scheduler using the Python SDK. This pattern is used to manage long-running operations through HTTP endpoints, allowing clients to start an operation and check its status asynchronously without keeping an HTTP connection open.
+This sample demonstrates a mini application that uses Azure Durable Task Scheduler behind the scenes to power asynchronous HTTP APIs. Unlike other samples that focus on specific DurableTask concepts, this example shows how to build a production-ready web application that leverages DTS internally to manage long-running operations.
+
+The application demonstrates:
+1. A FastAPI web server exposing RESTful endpoints for managing long-running tasks
+2. How to implement the asynchronous operation pattern for HTTP APIs using DTS as the backend infrastructure
+3. Integration between a modern web framework and the durable orchestration engine
 
 In this sample:
 1. A FastAPI web server exposes endpoints to start operations and check their status
@@ -19,7 +24,7 @@ This pattern is useful for:
 
 ## Prerequisites
 
-1. [Python 3.8+](https://www.python.org/downloads/)
+1. [Python 3.9+](https://www.python.org/downloads/)
 2. [Docker](https://www.docker.com/products/docker-desktop/) (for running the emulator)
 3. [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) (if using a deployed Durable Task Scheduler)
 4. [FastAPI](https://fastapi.tiangolo.com/) and [Uvicorn](https://www.uvicorn.org/) (installed via requirements.txt)
@@ -76,7 +81,7 @@ az durabletask taskhub create --resource-group <testrg> --scheduler-name <testsc
    $env:TASKHUB = "<taskhubname>"
    $env:ENDPOINT = "<taskhubEndpoint>"
    ```
-ß
+
 ## How to Run the Sample
 
 Once you have set up either the emulator or deployed scheduler, follow these steps to run the sample:
@@ -104,7 +109,9 @@ python client.py
 ```
 This will start a FastAPI server on port 8000.
 
-5. Interact with the API using a browser or curl:
+5. Interact with the API using a browser, curl, or PowerShell:
+   
+   **Using curl:**
    - To start a new operation:
      ```bash
      curl -X POST http://localhost:8000/api/start-operation -H "Content-Type: application/json" -d '{"processing_time": 10}'
@@ -112,6 +119,18 @@ This will start a FastAPI server on port 8000.
    - To check operation status (replace `{operation_id}` with the ID from the previous response):
      ```bash
      curl http://localhost:8000/api/operations/{operation_id}
+     ```
+   
+   **Using PowerShell:**
+   - To start a new operation:
+     ```powershell
+     Invoke-RestMethod -Method Post -Uri "http://localhost:8000/api/start-operation" `
+     -Headers @{ "Content-Type" = "application/json" } `
+     -Body '{"processing_time": 10}'
+     ```
+   - To check operation status (replace `{operation_id}` with the ID from the previous response):
+     ```powershell
+     Invoke-RestMethod -Uri "http://localhost:8000/api/operations/{operation_id}"
      ```
 
 ## Understanding the Output

@@ -12,8 +12,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Get environment variables for taskhub and endpoint
-TASKHUB = os.getenv("TASKHUB")
-ENDPOINT = os.getenv("ENDPOINT")
+TASKHUB = os.getenv("TASKHUB", "default")
+ENDPOINT = os.getenv("ENDPOINT", "http://localhost:8080")
 
 # Check if environment variables are set
 if not TASKHUB:
