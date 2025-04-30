@@ -5,7 +5,7 @@ using Microsoft.DurableTask.Worker.AzureManaged;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using FunctionChaining;
+using AutoscalingInACA;
 
 // Configure the host builder
 HostApplicationBuilder builder = Host.CreateApplicationBuilder();
@@ -79,7 +79,7 @@ IHost host = builder.Build();
 // Get the logger from the service provider for the rest of the program
 logger = host.Services.GetRequiredService<ILogger<Program>>();
 
-logger.LogInformation("Starting Function Chaining Pattern - Greeting Worker");
+logger.LogInformation("Starting Autoscaling in Azure Container Apps - Greeting Worker");
 
 // Start the host
 await host.StartAsync();

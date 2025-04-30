@@ -1,8 +1,8 @@
-# Function Chaining Pattern
+# Autoscaling in Azure Container Apps Pattern
 
 ## Description of the Sample
 
-This sample demonstrates the function chaining pattern with the Azure Durable Task Scheduler using the .NET SDK. Function chaining is a fundamental workflow pattern where activities are executed in a sequence, with the output of one activity passed as the input to the next activity.
+This sample demonstrates how to implement autoscaling with the Azure Durable Task Scheduler using the .NET SDK in Azure Container Apps. The pattern showcases an orchestration workflow that can benefit from dynamically scaling worker instances based on load.
 
 In this sample:
 1. The orchestrator calls the `SayHelloActivity` which greets the user with their name
@@ -11,10 +11,10 @@ In this sample:
 4. The final greeting message is returned to the client
 
 This pattern is useful for:
-- Creating sequential workflows where steps must execute in order
-- Passing data between steps with data transformations at each step
-- Building pipelines where each activity adds value to the result
-- Multi-stage text processing, document generation, and conversational workflows
+- Creating scalable workflows that can handle varying loads
+- Efficiently utilizing resources by scaling container instances up or down
+- Building resilient systems that can respond to increased demand
+- Implementing cost-effective processing for variable workloads
 
 ## Prerequisites
 
@@ -100,70 +100,24 @@ connectionString = $"Endpoint={hostAddress};TaskHub={taskHubName};Authentication
 
 Once you have set up either the emulator or deployed scheduler, follow these steps to run the sample:
 
-### Local Development
+1. First, build the solution:
+```bash
+cd AutoscalingInACA
+dotnet build
+```
 
-1. First, start the Worker (processing component):
+2. Start the worker in a terminal:
+```bash
+cd Worker
+dotnet run
+```
+You should see output indicating the worker has started and registered the orchestration and activities.
 
-   ```bash
-   cd Worker
-   dotnet run
-   ```
-
-2. In a separate terminal, run the Client (orchestration initiator):
-
-   ```bash
-   cd Client
-   dotnet run
-   ```
-
-### Deploying with Azure Developer CLI (AZD)
-
-This sample includes an `azure.yaml` configuration file that allows you to deploy the entire solution to Azure using Azure Developer CLI (AZD).
-
-#### Prerequisites for AZD Deployment
-
-1. Install [Azure Developer CLI](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
-2. Authenticate with Azure:
-   ```bash
-   azd auth login
-   ```
-
-#### Deployment Steps
-
-1. Navigate to the Function Chaining sample directory:
-   ```bash
-   cd /path/to/Durable-Task-Scheduler/samples/portable-sdks/dotnet/FunctionChaining
-   ```
-
-2. Initialize the AZD environment with a unique name:
-   ```bash
-   azd init --template .
-   ```
-
-3. Provision resources and deploy the application:
-   ```bash
-   azd up
-   ```
-   This command will:
-   - Provision Azure resources (including Azure Container Apps and Durable Task Scheduler)
-   - Build and deploy both the Client and Worker components
-   - Set up the necessary connections between components
-
-4. After deployment completes, AZD will display URLs for your deployed services.
-
-5. Monitor your orchestrations using the Azure Portal by navigating to your Durable Task Scheduler resource.
-
-6. To confirm the sample is working correctly, use log streaming to view the application logs:
-   ```bash
-   # For the Worker container app
-   azd monitor --service worker
-   
-   # For the Client container app (in a separate terminal)
-   azd monitor --service client
-   ```
-   
-   These logs will show orchestrations being scheduled, activities executing, and results being processed, similar to running locally.
-
+3. In a new terminal, run the client:
+```bash
+cd Client
+dotnet run
+```
 
 ## Understanding the Code Structure
 
@@ -221,35 +175,15 @@ await host.StartAsync();
 The Client project:
 
 - Uses the same connection string logic as the worker
-- Implements a sequential orchestration scheduler that:
-  - Schedules 20 orchestration instances, one at a time
-  - Waits 5 seconds between scheduling each orchestration
-  - Tracks all orchestration instances in a list
-  - Waits for all orchestrations to complete before exiting
-- Uses standard logging to show progress and results
+- Schedules an orchestration instance with a name input
+- Waits for the orchestration to complete and displays the result
+- Uses WaitForInstanceCompletionAsync for efficient polling
 
 ```csharp
-// Schedule 20 orchestrations sequentially
-for (int i = 0; i < TotalOrchestrations; i++)
-{
-    // Create a unique instance ID
-    string instanceName = $"{name}_{i+1}";
-    
-    // Schedule the orchestration
-    string instanceId = await client.ScheduleNewOrchestrationInstanceAsync(
-        "GreetingOrchestration", 
-        instanceName);
-    
-    // Wait 5 seconds before scheduling the next one
-    await Task.Delay(TimeSpan.FromSeconds(IntervalSeconds));
-}
-
-// Wait for all orchestrations to complete
-foreach (string id in allInstanceIds)
-{
-    OrchestrationMetadata instance = await client.WaitForInstanceCompletionAsync(
-        id, getInputsAndOutputs: false, CancellationToken.None);
-}
+var instance = await client.WaitForInstanceCompletionAsync(
+    instanceId,
+    getInputsAndOutputs: true,
+    cts.Token);
 ```
 
 ## Understanding the Output
@@ -268,26 +202,6 @@ Orchestration completed with status: Completed
 Greeting result: Hello GitHub Copilot! It's nice to meet you. Welcome to the Durable Task Framework!
 ```
 
-When you run the sample, you'll see output from both the worker and client processes:
-
-### Worker Output
-The worker shows:
-- Registration of the orchestrator and activities
-- Log entries when each activity is called, showing details of the order processing
-- The progression through the chain of activities from order processing to payment to shipping to notification
-
-### Client Output
-The client shows:
-- Starting the orchestration with the order details
-- The unique orchestration instance ID
-- The final result, which includes:
-  - The order ID
-  - Status (which should be "Completed")
-  - Payment ID (randomly generated)
-  - Shipping ID (randomly generated)
-
-This demonstrates the chaining of functions in a sequence, with each function building on the state from the previous one.
-
 ## Reviewing the Orchestration in the Durable Task Scheduler Dashboard
 
 To access the Durable Task Scheduler Dashboard and review your orchestration:
@@ -297,7 +211,7 @@ To access the Durable Task Scheduler Dashboard and review your orchestration:
 2. Click on the "default" task hub
 3. You'll see the orchestration instance in the list
 4. Click on the instance ID to view the execution details, which will show:
-   - The sequential execution of the four activities
+   - The sequential execution of the activities
    - The input and output at each step
    - The time taken for each step
 
@@ -307,5 +221,3 @@ To access the Durable Task Scheduler Dashboard and review your orchestration:
 3. Click on the dashboard URL in the top right corner
 4. Search for your orchestration instance ID
 5. Review the execution details
-
-The dashboard visualizes the sequential nature of function chaining, making it easy to see the flow of data from one activity to the next throughout the order processing workflow.
