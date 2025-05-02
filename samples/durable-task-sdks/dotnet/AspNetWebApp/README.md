@@ -13,7 +13,7 @@ This directory includes a sample .NET console app that demonstrates how to use t
 
 Before you can run the app, you need to create a durable task scheduler task hub in Azure.
 
-> **NOTE**: These are abbreviated instructions for simplicity. For a full set of instructions, see the Azure Durable Functions [QuickStart guide](../../../../quickstarts/HelloCities/README.md#create-a-durable-task-scheduler-namespace-and-task-hub).
+> **NOTE**: These are abbreviated instructions for simplicity. For a full set of instructions, see the Azure Durable Functions [QuickStart guide](../../../../quickstarts/durable-functions/dotnet/HelloCities/README.md).
 
 1. Install the durable task scheduler CLI extension:
 
@@ -134,7 +134,7 @@ In the same terminal window as above, use the following steps to run the sample 
 
 1. Clone this repository.
 
-1. Open a terminal window and navigate to the `samples/portable-sdk/dotnet/AspNetWebApp` directory.
+1. Open a terminal window and navigate to the `samples/durable-task-sdks/dotnet/AspNetWebApp` directory.
 
 1. Run the following command to build and run the sample:
 
@@ -149,7 +149,7 @@ You should see output similar to the following:
 2025-01-14T22:31:11.041Z info: Microsoft.Hosting.Lifetime[14] Now listening on: http://localhost:5008
 2025-01-14T22:31:11.042Z info: Microsoft.Hosting.Lifetime[0] Application started. Press Ctrl+C to shut down.
 2025-01-14T22:31:11.043Z info: Microsoft.Hosting.Lifetime[0] Hosting environment: Development
-2025-01-14T22:31:11.043Z info: Microsoft.Hosting.Lifetime[0] Content root path: /home/cgillum/code/github.com/Azure/Azure-Functions-Durable-Task-Scheduler-Private-Preview/samples/portable-sdk/dotnet/AspNetWebApp
+2025-01-14T22:31:11.043Z info: Microsoft.Hosting.Lifetime[0] Content root path: /home/cgillum/code/github.com/Azure/Azure-Functions-Durable-Task-Scheduler-Private-Preview/samples/durable-task-sdks/dotnet/AspNetWebApp
 2025-01-14T22:31:14.885Z info: Microsoft.DurableTask[4] Sidecar work-item streaming connection established.
 ```
 
@@ -201,13 +201,13 @@ https://dashboard.durabletask.io/subscriptions/{subscriptionID}/schedulers/my-sc
 
 Once logged in, you should see the orchestrations that were created by the sample app. Below is an example of what the dashboard might look like (note that some of the details will be different than the screenshot):
 
-![Durable Task Scheduler dashboard](../../../../media/images/portable-sdks/portable-sample-dashboard.png)
+![Durable Task Scheduler dashboard](../../../../media/images/durable-task-sdks/portable-sample-dashboard.png)
 
 ## Optional: Deploy to Azure Container Apps
 
 1. Create an container app following the instructions in the [Azure Container App documentation](https://learn.microsoft.com/azure/container-apps/get-started?tabs=bash).
-1. During step 1, specify the deployed container app code folder at samples\portable-sdk\dotnet\AspNetWebApp
-1. Follow the instructions to create a user managed identity and assign the `Durable Task Data Contributor` role then attach it to the container app you created in step 1 at [Azure-Functions-Durable-Task-Scheduler-Private-Preview](..\..\..\..\docs\configure-existing-app.md#run-the-app-on-azure-net). Please skip section "Add required environment variables to app" since these environment variables are not required for deploying to container app.
+1. During step 1, specify the deployed container app code folder at samples\durable-task-sdks\dotnet\AspNetWebApp
+1. Create a user managed identity in Azure and assign the `Durable Task Data Contributor` role to it. Then attach this managed identity to the container app you created in step 1. Please use the Azure CLI or Azure Portal to set this up. For detailed instructions, see the [Azure Container Apps managed identities documentation](https://learn.microsoft.com/en-us/azure/container-apps/managed-identity).
 1. Call the container app endpoint at `http://sampleapi-<your-container-app-name>.azurecontainerapps.io/scenarios/hellocities?count=10`, Sample curl command:
 
     ```bash
