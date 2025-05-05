@@ -399,3 +399,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# durable-task-sdks java build folders and compiled files
+samples/durable-task-sdks/java/**/build/
+samples/durable-task-sdks/java/**/*.class
+samples/durable-task-sdks/java/**/.gradle/
+samples/durable-task-sdks/java/**/out/
