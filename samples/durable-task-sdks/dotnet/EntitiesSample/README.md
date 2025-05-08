@@ -1,6 +1,6 @@
 # Funds Transfer with the Durable Task SDK for .NET
 
-The [Durable Task SDK for .NET](https://github.com/microsoft/durabletask-dotnet) supports Durable Entities when used with the Durable Task Scheduler service. This sample shows how to use Durable Entities when targeting the Durable Task Scheduler service, with no Azure Functions dependency.
+The [Durable Task SDK for .NET](https://github.com/microsoft/durabletask-dotnet) supports [Durable Entities](https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-entities) when used with the Durable Task Scheduler. This sample shows how to use Durable Entities when targeting the Durable Task Scheduler service, with no Azure Functions dependency.
 
 ## Prerequisites
 
@@ -134,8 +134,6 @@ From a terminal window as above, use the following steps to run the sample on yo
     }
     ```
 
-## View orchestrations in the dashboard
+## View orchestrations and entities in the dashboard
 
-You can view the orchestrations in the Durable Task Scheduler emulator's dashboard by navigating to `http://localhost:8082` in your browser and selecting the `default` task hub.
-
-At the time of writing, the dashboard does not support viewing the entities that were created by the sample app. Support for visualizing entities in the dashboard is coming soon.
+You can view the sample's orchestrations and entities in the Durable Task Scheduler emulator's dashboard by navigating to `http://localhost:<port number>` (where *port number* is the one mapped to port 8082 in Docker) in your browser and selecting the `default` task hub.
