@@ -23,7 +23,7 @@ Below, you will find the instructions to set up and run this app locally..
 1. [Python 3.9+](https://www.python.org/downloads/)
 - [Create an active Azure subscription](https://learn.microsoft.com/en-us/azure/guides/developer/azure-developer-guide#understanding-accounts-subscriptions-and-billing).
 - [Install the latest Azure Functions Core Tools to use the CLI](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local)
-- [Enroll in the Durable Task Scheduler Preview](https://github.com/Azure/Azure-Functions-Durable-Task-Scheduler-Private-Preview/tree/main) and create a scheduler / taskhub resource.
+- [Create a Durable Task Scheduler ](https://learn.microsoft.com/en-us/azure/azure-functions/durable/durable-task-scheduler/durable-task-scheduler) and create a taskhub resource.
 - [Start and configure an Azurite storage emulator for local storage](https://learn.microsoft.com/azure/storage/common/storage-use-azurite).
 
 ## local.settings.json
