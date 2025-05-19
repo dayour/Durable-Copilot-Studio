@@ -35,7 +35,7 @@ You will need to configure a `local.settings.json` file at the root of the repo 
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "AzureWebJobsFeatureFlags": "EnableWorkerIndexing",
     "FUNCTIONS_WORKER_RUNTIME": "python",
-    "DURABLE_TASK_SERVICE_CONNECTION_STRING": "Endpoint=<DTS-SCHEDULER-ENDPOINT>;Authentication=DefaultAzure",
+    "DURABLE_TASK_SCHEDULER_CONNECTION_STRING": "Endpoint=<DTS-SCHEDULER-ENDPOINT>;Authentication=DefaultAzure",
     "TASKHUB_NAME": "<TASKHUB-NAME>",
     "BLOB_STORAGE_ENDPOINT": "<BLOB-STORAGE-ENDPOINT>",
     "COGNITIVE_SERVICES_ENDPOINT": "<COGNITIVE-SERVICE-ENDPOINT>",
