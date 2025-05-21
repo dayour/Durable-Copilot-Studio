@@ -21,91 +21,130 @@ This pattern is useful for:
 ## Prerequisites
 
 1. [Python 3.9+](https://www.python.org/downloads/)
-2. [Docker](https://www.docker.com/products/docker-desktop/) (for running the emulator)
+2. [Docker](https://www.docker.com/products/docker-desktop/) (for running the emulator) installed
 3. [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) (if using a deployed Durable Task Scheduler)
 
 ## Configuring Durable Task Scheduler
 
-There are two ways to run this sample:
+There are two ways to run this sample locally:
 
 ### Using the Emulator (Recommended)
 
 The emulator simulates a scheduler and taskhub in a Docker container, making it ideal for development and learning.
 
-1. Install Docker if it's not already installed.
+1. Pull the Docker Image for the Emulator:
+  ```bash
+  docker pull mcr.microsoft.com/dts/dts-emulator:latest
+  ```
 
-2. Pull the Docker Image for the Emulator:
-```bash
-docker pull mcr.microsoft.com/dts/dts-emulator:latest
-```
-
-3. Run the Emulator:
-```bash
-docker run --name dtsemulator -d -p 8080:8080 -p 8082:8082 mcr.microsoft.com/dts/dts-emulator:latest
-```
+1. Run the Emulator:
+  ```bash
+  docker run --name dtsemulator -d -p 8080:8080 -p 8082:8082 mcr.microsoft.com/dts/dts-emulator:latest
+  ```
 Wait a few seconds for the container to be ready.
 
 Note: The example code automatically uses the default emulator settings (endpoint: http://localhost:8080, taskhub: default). You don't need to set any environment variables.
 
 ### Using a Deployed Scheduler and Taskhub in Azure
 
-For production scenarios or when you're ready to deploy to Azure:
+Local development with a deployed scheduler:
 
-1. Create a Scheduler using the Azure CLI:
-```bash
-az durabletask scheduler create --resource-group <testrg> --name <testscheduler> --location <eastus> --ip-allowlist "[0.0.0.0/0]" --sku-capacity 1 --sku-name "Dedicated" --tags "{'myattribute':'myvalue'}"
-```
+1. Install the durable task scheduler CLI extension:
 
-2. Create Your Taskhub:
-```bash
-az durabletask taskhub create --resource-group <testrg> --scheduler-name <testscheduler> --name <testtaskhub>
-```
+    ```bash
+    az upgrade
+    az extension add --name durabletask --allow-preview true
+    ```
 
-3. Retrieve the Endpoint for the Scheduler from the Azure portal.
+1. Create a resource group in a region where the Durable Task Scheduler is available:
 
-4. Set the Environment Variables:
+    ```bash
+    az provider show --namespace Microsoft.DurableTask --query "resourceTypes[?resourceType=='schedulers'].locations | [0]" --out table
+    ```
 
-   Bash:
-   ```bash
-   export TASKHUB=<taskhubname>
-   export ENDPOINT=<taskhubEndpoint>
-   ```
+    ```bash
+    az group create --name my-resource-group --location <location>
+    ```
+1. Create a durable task scheduler resource:
 
-   PowerShell:
-   ```powershell
-   $env:TASKHUB = "<taskhubname>"
-   $env:ENDPOINT = "<taskhubEndpoint>"
-   ```
+    ```bash
+    az durabletask scheduler create \
+        --resource-group my-resource-group \
+        --name my-scheduler \
+        --ip-allowlist '["0.0.0.0/0"]' \
+        --sku-name "Dedicated" \
+        --sku-capacity 1 \
+        --tags "{'myattribute':'myvalue'}"
+    ```
+
+1. Create a task hub within the scheduler resource:
+
+    ```bash
+    az durabletask taskhub create \
+        --resource-group my-resource-group \
+        --scheduler-name my-scheduler \
+        --name "my-taskhub"
+    ```
+
+1. Grant the current user permission to connect to the `my-taskhub` task hub:
+
+    ```bash
+    subscriptionId=$(az account show --query "id" -o tsv)
+    loggedInUser=$(az account show --query "user.name" -o tsv)
+
+    az role assignment create \
+        --assignee $loggedInUser \
+        --role "Durable Task Data Contributor" \
+        --scope "/subscriptions/$subscriptionId/resourceGroups/my-resource-group/providers/Microsoft.DurableTask/schedulers/my-scheduler/taskHubs/my-taskhub"
+    ```
 
 ## How to Run the Sample
 
 Once you have set up either the emulator or deployed scheduler, follow these steps to run the sample:
 
 1. First, activate your Python virtual environment (if you're using one):
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows, use: venv\Scripts\activate
-```
+  ```bash
+  python -m venv venv
+  source venv/bin/activate  # On Windows, use: venv\Scripts\activate
+  ```
 
-2. Install the required packages:
-```bash
-pip install -r requirements.txt
-```
+1.  If you're using a deployed scheduler, you need set Environment Variables:
+  ```bash
+  export ENDPOINT=$(az durabletask scheduler show \
+      --resource-group my-resource-group \
+      --name my-scheduler \
+      --query "properties.endpoint" \
+      --output tsv)
 
-3. Start the worker in a terminal:
-```bash
-python worker.py
-```
-You should see output indicating the worker has started and registered the orchestration and activities.
+  export TASKHUB="my-taskhub"
+  ```
 
-4. In a new terminal (with the virtual environment activated if applicable), run the client:
-```bash
-python client.py [job_id] [polling_interval] [timeout]
-```
-You can optionally provide:
-- `job_id`: A unique identifier for the job (defaults to a random UUID)
-- `polling_interval`: How often to check job status in seconds (defaults to 5)
-- `timeout`: Maximum monitoring duration in seconds (defaults to 30)
+1. Install the required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+1. Start the worker in a terminal:
+   ```bash
+   python worker.py
+   ```
+   You should see output indicating the worker has started and registered the orchestration and activities.
+
+1. In a new terminal (with the virtual environment activated if applicable), run the client:
+  > **Note:** Remember to set the environment variables again if you're using a deployed scheduler. 
+  
+   ```bash
+   python client.py [job_id] [polling_interval] [timeout]
+   ```
+   You can optionally provide:
+   - `job_id`: A unique identifier for the job (defaults to a random UUID)
+   - `polling_interval`: How often to check job status in seconds (defaults to 5)
+   - `timeout`: Maximum monitoring duration in seconds (defaults to 30)
+
+## Identity-based authentication
+
+Learn how to set up [identity-based authentication](https://learn.microsoft.com/azure/azure-functions/durable/durable-task-scheduler/durable-task-scheduler-identity?tabs=df&pivots=az-cli) when you deploy the app Azure.  
+
 
 ## Understanding the Output
 
