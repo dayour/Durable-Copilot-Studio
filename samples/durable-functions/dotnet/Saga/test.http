@@ -1,0 +1,20 @@
+# Start a new order processing workflow 
+# This will trigger the Saga pattern and show compensation in action
+POST http://localhost:7071/api/orders
+Content-Type: application/json
+
+{
+  "customerId": "customer123",
+  "productId": "product456",
+  "quantity": 5,
+  "amount": 100.00
+}
+
+### Store the instance ID from the response above and use it below
+@instanceId = replace-with-your-instance-id
+
+### Check the status of an order
+GET http://localhost:7071/api/orders/{{instanceId}}
+
+### Terminate a running workflow if needed
+POST http://localhost:7071/api/orders/{{instanceId}}/terminate

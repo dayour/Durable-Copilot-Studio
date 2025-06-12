@@ -1,0 +1,119 @@
+# .NET Core build folders
+bin/
+obj/
+out/
+
+# Durable Functions & Azure Functions specific
+local.settings.json
+__blobstorage__/
+__queuestorage__/
+__azurite_db*__.json
+.azurite/
+.functions/
+
+# Durable Functions Task Hub storage files
+TaskHubStorage/
+*.sav
+*.dat
+*.trn
+*.checkpoint
+leases/
+
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.pfx
+*.publishsettings
+
+# Visual Studio Code files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+.idea/
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# .NET SDK specific
+.project.json
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Build and publish profiles
+*.[Pp]ublish.xml
+*.azurePubxml
+*.pubxml
+*.publishproj
+
+# Microsoft Azure Web App publish settings
+PublishScripts/
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+*.swp
+*~
+
+# Environment variables and secrets
+.env
+appsettings.Development.json
+appsettings.*.json
+!appsettings.json
+
+# Azure Functions host configuration
+host.json.bak
+extensions.json.bak
+
+# Coverage reports
+coverage/
+*.coverage
+*.coveragexml
+*.dotCover
+
+# Logs
+*.log
+logs/
