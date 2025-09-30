@@ -1,0 +1,7 @@
+durabletask-azuremanaged
+azure-identity
+azure-mgmt-cognitiveservices
+requests
+aiohttp
+dataclasses-json
+python-dotenv
